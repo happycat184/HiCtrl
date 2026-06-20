@@ -1,0 +1,8 @@
+{
+    "proxy": {
+        "host": "127.0.0.1",
+        "port": 48222,
+        "default_code_validity_seconds": 86400,
+        "heartbeat_timeout": 60
+    }
+}
