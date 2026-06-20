@@ -40,7 +40,7 @@ from common.protocol import (
     read_packet,
     send_packet,
 )
-from common.windows import enable_dpi_awareness
+from common.display import enable_dpi_awareness
 
 
 STREAM_PRESETS = {

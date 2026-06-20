@@ -1,2 +1,7 @@
 cryptography>=45.0.0
 Pillow>=11.0.0
+mss>=9.0.0
+
+# Optional platform-specific helpers:
+# python-xlib>=0.33  # Linux X11 native input (falls back to xdotool)
+# pyobjc>=10.0       # macOS native input (falls back to AppleScript/cliclick)

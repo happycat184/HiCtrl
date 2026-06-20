@@ -9,7 +9,7 @@ import time
 import tkinter as tk
 from tkinter import messagebox, ttk
 
-from PIL import Image, ImageChops, ImageGrab
+from PIL import Image, ImageChops
 
 from common.crypto import DuplexCipher, SessionMaterial, generate_rsa_keypair, rsa_decrypt
 from common.protocol import (
@@ -39,6 +39,8 @@ from common.protocol import (
     read_packet,
     send_packet,
 )
+from common.capture import create_capture_backend
+from common.display import enable_dpi_awareness, get_virtual_screen_bounds
 from common.remote_input import (
     keyboard_event,
     mouse_button,
@@ -46,7 +48,6 @@ from common.remote_input import (
     send_text,
     set_mouse_position,
 )
-from common.windows import enable_dpi_awareness, get_virtual_screen_bounds
 
 
 DEFAULT_FRAME_INTERVAL = 1.0 / 120.0
@@ -92,6 +93,7 @@ class AgentApp:
         self._proxy_relay_active = False
         self._last_frame: Image.Image | None = None
         self._frame_counter = 0
+        self._capture = create_capture_backend()
 
         # -- tk vars --
         self.mode_var = tk.StringVar(value="direct")
@@ -565,7 +567,7 @@ class AgentApp:
             started = time.perf_counter()
             try:
                 left, top, rw, rh = get_virtual_screen_bounds()
-                screenshot = ImageGrab.grab(
+                screenshot = self._capture.grab(
                     bbox=(left, top, left + rw, top + rh), all_screens=True)
                 mw, mh = self._stream_max
                 if mw > 0 and mh > 0:
